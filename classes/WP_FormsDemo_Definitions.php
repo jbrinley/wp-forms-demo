@@ -12,12 +12,13 @@ class WP_FormsDemo_Definitions {
 	 */
 	public function build_form( WP_Form $form ) {
 		$form->add_class('wp-form');
+		$args = func_get_args();
 		switch ( $form->id ) {
 			case 'kitchen-sink':
-				call_user_func_array(array($this, 'kitchen_sink'), func_get_args());
+				call_user_func_array(array($this, 'kitchen_sink'), $args);
 				break;
 			case 'kitchen-table':
-				call_user_func_array(array($this, 'kitchen_table'), func_get_args());
+				call_user_func_array(array($this, 'kitchen_table'), $args);
 				break;
 		}
 	}
