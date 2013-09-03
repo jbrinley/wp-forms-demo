@@ -105,7 +105,6 @@ class WP_FormsDemo_Definitions {
 		$layout = new WP_FormsDemo_TableLayout();
 		$layout->add_hooks();
 		$this->kitchen_sink($form);
-		$layout->remove_hooks();
 	}
 
 	/**
@@ -144,7 +143,7 @@ class WP_FormsDemo_Definitions {
 		} else {
 			$submission->add_error( 'email', sprintf(__('Please do not use a "%s" domain.'), substr($submission->get_value('email'), $dot_position)));
 		}
-		
+
 		// There is no way to meet all the password criteria
 		if ( strlen($submission->get_value('password')) > 8 ) {
 			$submission->add_error( 'password', __('Passwords must contain 8 or fewer characters') );
