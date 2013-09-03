@@ -74,6 +74,7 @@ if ( !function_exists('WP_FormsDemo_load') ) { // Play nice
 		$definitions = new WP_FormsDemo_Definitions();
 		wp_register_form('kitchen-sink', array($definitions, 'build_form'));
 		wp_register_form('kitchen-table', array($definitions, 'build_form'));
+		wp_register_form('validation', array($definitions, 'build_form'));
 	}
 
 	/**

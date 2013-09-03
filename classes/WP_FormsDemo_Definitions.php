@@ -20,6 +20,8 @@ class WP_FormsDemo_Definitions {
 			case 'kitchen-table':
 				call_user_func_array(array($this, 'kitchen_table'), $args);
 				break;
+			case 'validation':
+				call_user_func_array(array($this, 'validation'), $args);
 		}
 	}
 
@@ -103,5 +105,33 @@ class WP_FormsDemo_Definitions {
 		$layout = new WP_FormsDemo_TableLayout();
 		$layout->add_hooks();
 		$this->kitchen_sink($form);
+		$layout->remove_hooks();
+	}
+
+	private function validation( WP_Form $form ) {
+		$form
+			->add_element( WP_Form_Element::create('text')->set_name('username')->set_label(__('Username')) )
+			->add_element( WP_Form_Element::create('text')->set_name('email')->set_label('Email Address') )
+			->add_element( WP_Form_Element::create('password')->set_name('password')->set_label('Password') )
+			->add_element( WP_Form_Element::create('submit')->set_name('submit') )
+			->add_validator( array( $this, 'validation_form_validator' ) )
+		;
+	}
+
+	public function validation_form_validator( WP_Form_Submission $submission, WP_Form $form ) {
+		// In a real life scenario, you would probably check against a database or some such
+		$submission->add_error( 'username', __('Your username is already taken.') );
+		$dot_position = strrpos($submission->get_value('email'), '.', -1);
+
+		if ( $dot_position === FALSE ) {
+			$submission->add_error( 'email', __('Invalid email address.') );
+		} else {
+			$submission->add_error( 'email', sprintf(__('Please do not use a "%s" domain.'), substr($submission->get_value('email'), $dot_position)));
+		}
+		if ( strlen($submission->get_value('password')) > 8 ) {
+			$submission->add_error( 'password', __('Passwords must contain 8 or fewer characters') );
+		} else {
+			$submission->add_error( 'password', __('Passwords must contain at least two uppercase letters, two lowercarse letters, two numbers, and three special characters.'));
+		}
 	}
 }

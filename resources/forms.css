@@ -20,3 +20,13 @@
 	font-style: italic;
 	font-size: 85%;
 }
+
+.wp-form .errors {
+	margin: 0;
+	list-style: none;
+	color: #FF0000;
+}
+
+.wp-form .errors li {
+	margin-left: 0;
+}
