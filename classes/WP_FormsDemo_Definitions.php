@@ -108,6 +108,12 @@ class WP_FormsDemo_Definitions {
 		$layout->remove_hooks();
 	}
 
+	/**
+	 * A simple form with a view fields and a validation callback
+	 *
+	 * @param WP_Form $form
+	 * @return void
+	 */
 	private function validation( WP_Form $form ) {
 		$form
 			->add_element( WP_Form_Element::create('text')->set_name('username')->set_label(__('Username')) )
@@ -118,16 +124,28 @@ class WP_FormsDemo_Definitions {
 		;
 	}
 
+	/**
+	 * The validation callback for the validation example. This form will never
+	 * successfully validate.
+	 *
+	 * @see WP_FormsDemo_Definitions::validation
+	 * @param WP_Form_Submission $submission
+	 * @param WP_Form $form
+	 * @return void
+	 */
 	public function validation_form_validator( WP_Form_Submission $submission, WP_Form $form ) {
 		// In a real life scenario, you would probably check against a database or some such
 		$submission->add_error( 'username', __('Your username is already taken.') );
-		$dot_position = strrpos($submission->get_value('email'), '.', -1);
 
+		// Find a reason to reject the email address
+		$dot_position = strrpos($submission->get_value('email'), '.', -1);
 		if ( $dot_position === FALSE ) {
 			$submission->add_error( 'email', __('Invalid email address.') );
 		} else {
 			$submission->add_error( 'email', sprintf(__('Please do not use a "%s" domain.'), substr($submission->get_value('email'), $dot_position)));
 		}
+		
+		// There is no way to meet all the password criteria
 		if ( strlen($submission->get_value('password')) > 8 ) {
 			$submission->add_error( 'password', __('Passwords must contain 8 or fewer characters') );
 		} else {
