@@ -1,0 +1,22 @@
+/**
+ * Some basic CSS to make forms look reasonable in the twentytwelve theme
+ */
+
+.wp-form fieldset {
+	border: 1px solid #999;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.wp-form fieldset legend {
+	padding: 0 1em;
+}
+
+.wp-form label {
+	display: block;
+}
+
+.wp-form .description {
+	font-style: italic;
+	font-size: 85%;
+}
